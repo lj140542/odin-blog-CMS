@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --test: hsl(0, 0%, 100%);
+    --background: 43 17% 71%;
+    --foreground: 77 14% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 44 17% 31%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 43 17% 71%;
+    --primary-foreground: 77 14% 10%;
+
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 77 14% 10%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 77 14% 10%;
+
+    --accent: 31 99% 62%;
+    --accent-foreground: 77 14% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 100%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 44 17% 31%;
+    --foreground: 77 14% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 43 17% 71%;
+    --popover-foreground: 77 14% 10%;
+
+    --primary: 44 17% 31%;
+    --primary-foreground: 77 14% 10%;
+
+    --secondary: 77 14% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 77 14% 10%;
+
+    --accent: 31 99% 62%;
+    --accent-foreground: 77 14% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 77 14% 10%;
+    --input: 77 14% 10% / 50%;
+    --ring: 77 14% 10%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  html {
+    box-sizing: border-box;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(180deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 200%);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    line-height: 1.5;
+    color: hsl(var(--foreground));
+  }
+
+  textarea,
+  input,
+  button {
+    font-size: 1rem;
+    font-family: inherit;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    box-shadow: 0 0px 1px hsl(var(--secondary-foreground)/ 0.2), 0 1px 2px hsl(var(--secondary-foreground)/ 0.2);
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  button {
+    color: hsl(var(--accent));
+    font-weight: 500;
+  }
+  
+  textarea:hover,
+  input:hover,
+  button:hover {
+    box-shadow: 0 0px 1px hsl(var(--secondary-foreground)/ 0.6), 0 1px 2px hsl(var(--secondary-foreground)/ 0.2);
+  }
+  
+  button:active {
+    box-shadow: 0 0px 1px hsl(var(--secondary-foreground)/ 0.4);
+    transform: translateY(1px);
+  }
+  
+  form[action$="destroy"] button {
+    color: #f44250;
+  }
+  
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  #root {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+
+  #detail.loading {
+    opacity: 0.25;
+    transition: opacity 200ms;
+    transition-delay: 200ms;
+  }
+
+  
+  #error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}
