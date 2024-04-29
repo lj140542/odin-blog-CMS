@@ -1,6 +1,22 @@
+import { Post } from '@/types';
 import '../sidebar.css'
+import { Outlet, useLoaderData } from 'react-router-dom';
+
+export const loader = async () => {
+  const data = await fetch(`${import.meta.env.VITE_API_URL}/posts`, { mode: 'cors', method: 'GET', credentials: 'include' })
+    .then(response => response.json())
+    .then(response => { return response.posts; })
+    .catch(error => {
+      console.error(error);
+      return null;
+    });
+
+  return data;
+};
 
 export default function Root() {
+  const posts = useLoaderData() as Post[];
+
   return (
     <>
       <div id="sidebar" className="flex flex-col w-[22rem] bg-secondary text-secondary-foreground border-r border-r-secondary-foreground/25">
@@ -31,16 +47,22 @@ export default function Root() {
         </div>
         <nav className="flex-1 overflow-auto pt-4">
           <ul className="p-0 m-0 list-none">
-            <li>
-              <a href={`/contacts/1`}>Your Name</a>
-            </li>
-            <li>
-              <a href={`/contacts/2`}>Your Friend</a>
-            </li>
+            {!posts ?
+              (<div>Loading posts...</div>)
+              : posts.length ?
+                posts.map(post => {
+                  return (
+                    <li key={post._id}><a href={`/posts/${post._id}`}>{post.title}</a></li>
+                  )
+                })
+                : (<div>No post</div>)
+            }
           </ul>
         </nav>
       </div>
-      <div id="detail" className="flex-1 py-8 px-16 w-full"></div>
+      <div id="detail" className="flex-1 py-8 px-16 w-full">
+        <Outlet />
+      </div>
     </>
   );
 }
