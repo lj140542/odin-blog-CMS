@@ -7,10 +7,8 @@ const Logout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      setToken();
-      navigate("/", { replace: true });
-    }, 2 * 1000);
+    setToken();
+    navigate("/", { replace: true });
   }, [setToken, navigate]);
 
   return (

@@ -1,10 +1,19 @@
 import { Post } from '@/types';
+import { Link, Outlet, redirect, useLoaderData } from 'react-router-dom';
 import '../sidebar.css'
-import { Outlet, useLoaderData } from 'react-router-dom';
 
 export const loader = async () => {
   const data = await fetch(`${import.meta.env.VITE_API_URL}/posts`, { mode: 'cors', method: 'GET', credentials: 'include' })
-    .then(response => response.json())
+    .then(response => {
+      switch (response.status) {
+        case 200:
+          return response.json();
+        case 403:
+          return redirect('/logout');
+        default:
+          throw new Error(`${response.status} ${response.statusText}`);
+      }
+    })
     .then(response => { return response.posts; })
     .catch(error => {
       console.error(error);
@@ -52,7 +61,7 @@ export default function Root() {
               : posts.length ?
                 posts.map(post => {
                   return (
-                    <li key={post._id}><a href={`/posts/${post._id}`}>{post.title}</a></li>
+                    <li key={post._id}><Link to={`/posts/${post._id}`}>{post.title}</Link></li>
                   )
                 })
                 : (<div>No post</div>)

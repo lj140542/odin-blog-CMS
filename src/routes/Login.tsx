@@ -4,7 +4,6 @@ import { IAuth } from "@/types";
 
 export const action = (authData: IAuth) => async ({ request }: ActionFunctionArgs) => {
   const formData = Object.fromEntries(await request.formData());
-
   if (formData.username && formData.password) {
     await fetch(`${import.meta.env.VITE_API_URL}/login`, {
       method: 'POST',
@@ -19,10 +18,8 @@ export const action = (authData: IAuth) => async ({ request }: ActionFunctionArg
             return response.json();
           case 401:
             throw new Error("Incorrect password.");
-            break;
           case 404:
             throw new Error("Unknown user.");
-            break;
           default:
             throw new Error(`${response.status} ${response.statusText}`);
         }
@@ -41,6 +38,7 @@ export const action = (authData: IAuth) => async ({ request }: ActionFunctionArg
 }
 
 const Login = () => {
+
   return (
     <div className="w-full h-full flex flex-col gap-3 justify-center items-center">
       <h1 className="text-2xl font-semibold">Login</h1>
