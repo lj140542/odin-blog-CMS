@@ -61,7 +61,9 @@ export default function Root() {
               : posts.length ?
                 posts.map(post => {
                   return (
-                    <li key={post._id}><Link to={`/posts/${post._id}`}>{post.title}</Link></li>
+                    <li key={post._id}>
+                      <Link to={`/posts/${post._id}`} className=''>{post.title}</Link>
+                    </li>
                   )
                 })
                 : (<div>No post</div>)
@@ -69,7 +71,7 @@ export default function Root() {
           </ul>
         </nav>
       </div>
-      <div id="detail" className="flex-1 py-8 px-16 w-full">
+      <div id="detail" className="flex-1 py-8 px-16 w-ful overflow-scroll">
         <Outlet />
       </div>
     </>

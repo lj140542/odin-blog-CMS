@@ -4,6 +4,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import Login, { action as LoginAction } from "./Login";
 import Logout from "./Logout";
 import Root, { loader as RootLoader } from "./Root";
+import PostPage, { loader as PostPageLoader } from "./PostPage";
 import ErrorPage from '../error-page';
 
 const Routes = () => {
@@ -20,6 +21,13 @@ const Routes = () => {
           path: "/",
           loader: RootLoader,
           element: < Root />,
+          children: [
+            {
+              path: "/posts/:_id",
+              loader: PostPageLoader,
+              element: <PostPage />,
+            },
+          ],
         },
         {
           path: "/logout",
