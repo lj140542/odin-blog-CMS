@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PostWithComments } from "@/types";
-import { useLoaderData, Form, useNavigate, ActionFunctionArgs, redirectDocument } from "react-router-dom";
+import { useLoaderData, Form, useNavigate, ActionFunctionArgs, redirectDocument, redirect } from "react-router-dom";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -29,7 +29,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         return error;
       })
 
-    if (result.url) return redirectDocument(result.url);
+    if (result.url) return redirect(result.url);
     else if (result.status && result.status == 403) return redirectDocument('/');
     else throw new Error(result.status ? `${result.status} ${result.statusText}` : result);
   }
@@ -68,7 +68,7 @@ export default function PostForm() {
               type="button"
               className="text-secondary-foreground"
               onClick={() => {
-                navigate(`/posts/${post._id}`, { replace: true });
+                navigate(`/posts/${post._id}`);
               }}
             >Cancel</button>
           </div>

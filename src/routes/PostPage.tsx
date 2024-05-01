@@ -33,7 +33,7 @@ export default function PostPage() {
               </Form>
               <Form
                 method="post"
-                action="destroy"
+                action="delete"
                 onSubmit={(event) => {
                   if (
                     !confirm(
@@ -44,7 +44,7 @@ export default function PostPage() {
                   }
                 }}
               >
-                <button className="h-8 w-full py-0">Delete</button>
+                <button className="h-8 w-full py-0 text-red-600">Delete</button>
               </Form>
             </span>
             <div className="whitespace-pre-line" dangerouslySetInnerHTML={{ __html: post.content }}></div>

@@ -6,6 +6,7 @@ import Logout from "./Logout";
 import Root, { loader as RootLoader, action as RootAction } from "./Root";
 import PostPage, { loader as PostPageLoader } from "./PostPage";
 import PostForm, { action as PostFormAction } from "./PostForm";
+import { action as PostDeleteAction } from "./PostDelete";
 import ErrorPage from '../error-page';
 
 const Routes = () => {
@@ -36,6 +37,10 @@ const Routes = () => {
               action: PostFormAction,
               element: <PostForm />,
               errorElement: <ErrorPage />,
+            },
+            {
+              path: "/posts/:_id/delete",
+              action: PostDeleteAction,
             },
           ],
         },

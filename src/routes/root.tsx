@@ -1,5 +1,5 @@
 import { Post } from '@/types';
-import { Form, Link, Outlet, redirectDocument, useLoaderData } from 'react-router-dom';
+import { Form, Link, Outlet, redirect, redirectDocument, useLoaderData } from 'react-router-dom';
 import '../sidebar.css'
 
 export async function loader() {
@@ -42,7 +42,7 @@ export async function action() {
       return error;
     })
 
-  if (result.url) return redirectDocument(result.url + "/edit");
+  if (result.url) return redirect(result.url + "/edit");
   else if (result.status && result.status == 403) return redirectDocument('/');
   else throw new Error(result.status ? `${result.status} ${result.statusText}` : result);
 }
