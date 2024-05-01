@@ -1,5 +1,5 @@
 import { PostWithComments } from "@/types";
-import { LoaderFunctionArgs, redirectDocument, useLoaderData } from "react-router-dom";
+import { Form, LoaderFunctionArgs, redirectDocument, useLoaderData } from "react-router-dom";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -28,8 +28,24 @@ export default function PostPage() {
           <div className="flex flex-col gap-4 w-full">
             <h2 className="text-5xl font-medium">{post.title}</h2>
             <span className="grid grid-cols-[100px_100px] gap-4 items-center">
-              <button className="h-8 py-0">Edit</button>
-              <button className="h-8 py-0">Delete</button>
+              <Form action="edit">
+                <button className="h-8 w-full py-0">Edit</button>
+              </Form>
+              <Form
+                method="post"
+                action="destroy"
+                onSubmit={(event) => {
+                  if (
+                    !confirm(
+                      "Please confirm you want to delete this record."
+                    )
+                  ) {
+                    event.preventDefault();
+                  }
+                }}
+              >
+                <button className="h-8 w-full py-0">Delete</button>
+              </Form>
             </span>
             <div className="whitespace-pre-line" dangerouslySetInnerHTML={{ __html: post.content }}></div>
           </div>

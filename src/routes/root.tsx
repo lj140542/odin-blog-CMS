@@ -42,7 +42,9 @@ export async function action() {
       return error;
     })
 
-  return result;
+  if (result.url) return redirectDocument(result.url + "/edit");
+  else if (result.status && result.status == 403) return redirectDocument('/');
+  else throw new Error(result.status ? `${result.status} ${result.statusText}` : result);
 }
 
 export default function Root() {

@@ -5,6 +5,7 @@ import Login, { action as LoginAction } from "./Login";
 import Logout from "./Logout";
 import Root, { loader as RootLoader, action as RootAction } from "./Root";
 import PostPage, { loader as PostPageLoader } from "./PostPage";
+import PostForm, { action as PostFormAction } from "./PostForm";
 import ErrorPage from '../error-page';
 
 const Routes = () => {
@@ -27,6 +28,13 @@ const Routes = () => {
               path: "/posts/:_id",
               loader: PostPageLoader,
               element: <PostPage />,
+              errorElement: <ErrorPage />,
+            },
+            {
+              path: "/posts/:_id/edit",
+              loader: PostPageLoader,
+              action: PostFormAction,
+              element: <PostForm />,
               errorElement: <ErrorPage />,
             },
           ],
