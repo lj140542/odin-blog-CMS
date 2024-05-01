@@ -27,9 +27,12 @@ export default function PostPage() {
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-4 w-full">
             <h2 className="text-5xl font-medium">{post.title}</h2>
-            <span className="grid grid-cols-[100px_100px] gap-4 items-center">
+            <span className="grid grid-cols-[120px_120px_120px] gap-4 items-center">
               <Form action="edit">
                 <button className="h-8 w-full py-0">Edit</button>
+              </Form>
+              <Form method="post" action={`${post.published ? "unpublish" : "publish"}`}>
+                <button className="h-8 w-full py-0">{post.published ? "Unpublish" : "Publish"}</button>
               </Form>
               <Form
                 method="post"

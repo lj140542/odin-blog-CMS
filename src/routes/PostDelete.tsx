@@ -16,7 +16,6 @@ export async function action({ params }: ActionFunctionArgs) {
       return error;
     })
 
-  console.log(result)
   if (result.result) return redirect('/');
   else if (result.status && result.status == 403) return redirectDocument('/');
   else throw new Error(result.status ? `${result.status} ${result.statusText}` : result);

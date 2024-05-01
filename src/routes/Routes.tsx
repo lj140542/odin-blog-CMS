@@ -7,6 +7,7 @@ import Root, { loader as RootLoader, action as RootAction } from "./Root";
 import PostPage, { loader as PostPageLoader } from "./PostPage";
 import PostForm, { action as PostFormAction } from "./PostForm";
 import { action as PostDeleteAction } from "./PostDelete";
+import { action as PostPublishAction } from "./PostPublish";
 import { action as CommentDeleteAction } from "./CommentDelete";
 import ErrorPage from '../error-page';
 
@@ -46,6 +47,10 @@ const Routes = () => {
             {
               path: "/posts/:_id/comment/:_commentId/delete",
               action: CommentDeleteAction,
+            },
+            {
+              path: "/posts/:_id/:_publish",
+              action: PostPublishAction,
             },
           ],
         },
