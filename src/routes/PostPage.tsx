@@ -1,28 +1,21 @@
 import { PostWithComments } from "@/types";
-import { LoaderFunctionArgs, redirect, useLoaderData } from "react-router-dom";
+import { LoaderFunctionArgs, redirectDocument, useLoaderData } from "react-router-dom";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const data = await fetch(`${import.meta.env.VITE_API_URL}/posts/${params._id}`, { mode: 'cors', method: 'GET', credentials: 'include' })
     .then(response => {
-      switch (response.status) {
-        case 200:
-          return response.json();
-        case 403:
-          return redirect('/logout');
-        case 404:
-          throw new Error("Post not found.");
-        default:
-          throw new Error(`${response.status} ${response.statusText}`);
-      }
+      if (response.ok) return response.json();
+      else return response;
     })
-    .then(response => { return response; })
     .catch(error => {
       console.error(error);
-      return null;
+      return error;
     });
 
-  return data;
+  if (data.post) return data
+  else if (data.status && data.status == 403) return redirectDocument('/');
+  else throw new Error(data.status ? `${data.status} ${data.statusText}` : data);
 }
 
 export default function PostPage() {

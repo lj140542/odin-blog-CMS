@@ -26,6 +26,7 @@ const Routes = () => {
               path: "/posts/:_id",
               loader: PostPageLoader,
               element: <PostPage />,
+              errorElement: <ErrorPage />,
             },
           ],
         },

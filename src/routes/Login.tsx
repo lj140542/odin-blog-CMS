@@ -1,11 +1,12 @@
-import { ActionFunctionArgs, Form } from "react-router-dom";
+import { ActionFunctionArgs, Form, useActionData } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { IAuth } from "@/types";
+import { IAuth, LoginActionResult } from "@/types";
 
 export const action = (authData: IAuth) => async ({ request }: ActionFunctionArgs) => {
   const formData = Object.fromEntries(await request.formData());
+  let actionResult = null;
   if (formData.username && formData.password) {
-    await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+    actionResult = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -13,20 +14,8 @@ export const action = (authData: IAuth) => async ({ request }: ActionFunctionArg
       body: JSON.stringify(formData)
     })
       .then(response => {
-        switch (response.status) {
-          case 200:
-            return response.json();
-          case 401:
-            throw new Error("Incorrect password.");
-          case 404:
-            throw new Error("Unknown user.");
-          default:
-            throw new Error(`${response.status} ${response.statusText}`);
-        }
-      })
-      .then(response => {
-        if (response.token)
-          authData.setToken(response.token);
+        if (response.ok) return response.json();
+        else return response;
       })
       .catch(error => {
         console.error(error);
@@ -34,19 +23,30 @@ export const action = (authData: IAuth) => async ({ request }: ActionFunctionArg
       });
   }
 
-  return null;
+  if (actionResult?.token) authData.setToken(actionResult.token);
+  return { status: actionResult?.status };
+
 }
 
 const Login = () => {
+  const actionResult = useActionData() as LoginActionResult;
 
   return (
-    <div className="w-full h-full flex flex-col gap-3 justify-center items-center">
+    <div className="w-full h-full flex flex-col gap-3 mt-[20dvh] items-center">
       <h1 className="text-2xl font-semibold">Login</h1>
       <Form method="POST" className="flex flex-col gap-2 w-full max-w-[320px]">
         <Input placeholder="Username" type="text" name="username" />
         <Input placeholder="Password" type="password" name="password" />
         <button type="submit">Confirm</button>
       </Form>
+      {
+        actionResult != null && (
+          <div className="text-red-600 font-medium">
+            {actionResult.status == 401 && (<>Bad user/password association.</>)}
+            {actionResult.status == 404 && (<>User unknown.</>)}
+          </div>
+        )
+      }
     </div>
   );
 };

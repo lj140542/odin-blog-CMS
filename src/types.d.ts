@@ -29,3 +29,7 @@ export interface PostWithComments {
   post: Post,
   comments: Comment[]
 }
+
+export interface LoginActionResult {
+  status?: number,
+}

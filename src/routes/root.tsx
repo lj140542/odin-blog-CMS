@@ -1,27 +1,22 @@
 import { Post } from '@/types';
-import { Link, Outlet, redirect, useLoaderData } from 'react-router-dom';
+import { Link, Outlet, redirectDocument, useLoaderData } from 'react-router-dom';
 import '../sidebar.css'
 
-export const loader = async () => {
+export async function loader() {
   const data = await fetch(`${import.meta.env.VITE_API_URL}/posts`, { mode: 'cors', method: 'GET', credentials: 'include' })
     .then(response => {
-      switch (response.status) {
-        case 200:
-          return response.json();
-        case 403:
-          return redirect('/logout');
-        default:
-          throw new Error(`${response.status} ${response.statusText}`);
-      }
+      if (response.ok) return response.json();
+      else return response;
     })
-    .then(response => { return response.posts; })
     .catch(error => {
       console.error(error);
       return null;
     });
 
-  return data;
-};
+  if (data.posts) return data.posts;
+  else if (data.status && data.status == 403) return redirectDocument('/');
+  else throw new Error(data.status ? `${data.status} ${data.statusText}` : data);
+}
 
 export default function Root() {
   const posts = useLoaderData() as Post[];
