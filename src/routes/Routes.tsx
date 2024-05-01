@@ -3,7 +3,7 @@ import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Login, { action as LoginAction } from "./Login";
 import Logout from "./Logout";
-import Root, { loader as RootLoader, action as RootAction } from "./Root";
+import Root, { loader as RootLoader, action as RootAction } from "./root";
 import PostPage, { loader as PostPageLoader } from "./PostPage";
 import PostForm, { action as PostFormAction } from "./PostForm";
 import { action as PostDeleteAction } from "./PostDelete";

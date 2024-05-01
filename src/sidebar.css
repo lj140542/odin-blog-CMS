@@ -40,7 +40,8 @@ i {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: content-box;
   background: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
   white-space: pre;
