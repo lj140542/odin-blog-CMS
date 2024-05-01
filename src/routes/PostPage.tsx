@@ -56,25 +56,34 @@ export default function PostPage() {
                 <h2 className="text-xl font-medium">Comments</h2>
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead>Author</TableHead>
-                      <TableHead>Comment</TableHead>
+                    <TableRow className="text-base hover:bg-inherit">
+                      <TableHead className="font-semibold">Author</TableHead>
+                      <TableHead className="font-semibold">Comment</TableHead>
                       <TableHead></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {comments.map(comment => {
                       return (
-                        <TableRow key={comment._id}>
+                        <TableRow key={comment._id} className="hover:bg-inherit">
                           <TableCell>{comment.author}</TableCell>
                           <TableCell>{comment.content}</TableCell>
                           <TableCell>
-                            <button className="m-0 p-0 bg-transparent border-0 shadow-none hover:shadow-none hover:scale-125 duration-500 ">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 fill-primary-foreground hover:fill-primary-foreground/75">
-                                <title>delete</title>
-                                <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                              </svg>
-                            </button>
+                            <Form
+                              method="post"
+                              action={`comment/${comment._id}/delete`}
+                              onSubmit={(event) => {
+                                if (
+                                  !confirm(
+                                    "Please confirm you want to delete this comment."
+                                  )
+                                ) {
+                                  event.preventDefault();
+                                }
+                              }}
+                            >
+                              <button className="h-8 w-full py-0 text-red-600">Delete</button>
+                            </Form>
                           </TableCell>
                         </TableRow>
                       );
