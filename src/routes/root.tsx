@@ -1,5 +1,5 @@
 import { Post } from '@/types';
-import { Link, Outlet, redirectDocument, useLoaderData } from 'react-router-dom';
+import { Form, Link, Outlet, redirectDocument, useLoaderData } from 'react-router-dom';
 import '../sidebar.css'
 
 export async function loader() {
@@ -16,6 +16,33 @@ export async function loader() {
   if (data.posts) return data.posts;
   else if (data.status && data.status == 403) return redirectDocument('/');
   else throw new Error(data.status ? `${data.status} ${data.statusText}` : data);
+}
+
+export async function action() {
+  /*
+    {
+      "result": "done",
+      "id": "6631875d3f4e5f8a96bf18ac",
+      "url": "/posts/6631875d3f4e5f8a96bf18ac"
+    }
+  */
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {
+    mode: 'cors',
+    method: 'POST',
+    credentials: 'include',
+    headers: { "Content-Type": "application/json", },
+    body: JSON.stringify({ title: "[new post]", content: " ", }),
+  })
+    .then(response => {
+      if (response.ok) return response.json();
+      else return response;
+    })
+    .catch(error => {
+      console.error(error);
+      return error;
+    })
+
+  return result;
 }
 
 export default function Root() {
@@ -45,9 +72,9 @@ export default function Root() {
               aria-live="polite"
             ></div>
           </form>
-          <form method="post" className="relative">
+          <Form method="post" className="relative">
             <button type="submit">New</button>
-          </form>
+          </Form>
         </div>
         <nav className="flex-1 overflow-auto pt-4">
           <ul className="p-0 m-0 list-none">

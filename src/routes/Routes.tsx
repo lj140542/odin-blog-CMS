@@ -3,7 +3,7 @@ import { useAuth } from "../provider/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Login, { action as LoginAction } from "./Login";
 import Logout from "./Logout";
-import Root, { loader as RootLoader } from "./Root";
+import Root, { loader as RootLoader, action as RootAction } from "./Root";
 import PostPage, { loader as PostPageLoader } from "./PostPage";
 import ErrorPage from '../error-page';
 
@@ -20,6 +20,7 @@ const Routes = () => {
         {
           path: "/",
           loader: RootLoader,
+          action: RootAction,
           element: < Root />,
           children: [
             {
